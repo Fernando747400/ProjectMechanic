@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
         {
             Grounded = true;
             verticalSpeed = 0;
-            this.transform.position = new Vector3(this.transform.position.x, sphereHit.transform.position.y + this.transform.localScale.y + 0.1f, this.transform.position.z);
+            this.transform.position = new Vector3(this.transform.position.x, sphereHit.transform.position.y + sphereHit.transform.localScale.y/2 + this.transform.localScale.y + 0.1f, this.transform.position.z);
         }
         else
         {
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Physics.Raycast(this.transform.position,Vector3.down,out rayHit, Mathf.Abs(verticalSpeed), groundMask.value))
         {
-            this.transform.position = new Vector3(this.transform.position.x, rayHit.transform.position.y + this.transform.localScale.y + 0.1f, this.transform.position.z);
+            this.transform.position = new Vector3(this.transform.position.x, rayHit.transform.position.y + rayHit.transform.localScale.y/2 + this.transform.localScale.y + 0.1f, this.transform.position.z);
         } else
         {
             this.transform.Translate(Vector3.up * verticalSpeed, Space.World);
