@@ -36,7 +36,7 @@ public class GravityController : MonoBehaviour
         {
             foreach(var G in gravityZones)
             {
-                ans = G.Position;
+                ans += G.Position;
             }
         } else
         {
@@ -45,7 +45,7 @@ public class GravityController : MonoBehaviour
         return ans;
     }
 
-    public float getGravity()
+    public void getGravity()
     {
        // foreach
     }

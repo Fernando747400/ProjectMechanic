@@ -12,6 +12,16 @@ public class PlayerController : MonoBehaviour
     private RaycastHit rayHit;
     private bool Grounded = true;
     private float verticalSpeed = 0;
+    private GravityController gravityController;
+    private Vector3 _direction;
+    private float _xValue;
+    private float _yValue;
+    private float _zValue;
+
+    public void Start()
+    {
+        gravityController = this.GetComponent<GravityController>();
+    }
 
     void Update()
     {
@@ -82,5 +92,48 @@ public class PlayerController : MonoBehaviour
         {
             this.transform.Translate(Vector3.up * verticalSpeed, Space.World);
         }
+    }
+
+    private void MovePlayer(Vector3 myVector)
+    {
+        this.transform.Translate(myVector * Time.deltaTime * Speed, Space.World);
+    }
+
+   private void UpdateDirectionSingleValues()
+    {
+        _xValue = _direction.x;
+        _yValue = _direction.y;
+        _zValue = _direction.z;
+    }
+
+    private void UpdateDirectionVectorValues()
+    {
+        _direction.x = _xValue;
+        _direction.y = _yValue;
+        _direction.z = _zValue;
+    }
+
+    private Vector3 CalculateDirection(Vector3 myVector)
+    {
+        _direction += myVector;
+        UpdateDirectionSingleValues();
+        return _direction;
+    }
+
+    private bool HasSpeed()
+    {
+        if (_xValue != 0 || _yValue != 0 || _zValue != 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void KillSpeed()
+    {
+        CalculateDirection(_direction * -1);
     }
 }
