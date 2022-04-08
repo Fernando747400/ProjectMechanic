@@ -155,7 +155,9 @@ MonoBehaviour:
   _bullet: {fileID: 2520643505563386568, guid: a6a5a80a70e9f0949ad0ab8c332eddea, type: 3}
   _spawnPoint: {fileID: 1204512853}
   _timer: 1
-  _force: 20
+  _force: 15
+  _accelerateBullet: 0
+  _accelerateFor: 0.1
 --- !u!4 &391017254
 Transform:
   m_ObjectHideFlags: 0

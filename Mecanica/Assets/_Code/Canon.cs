@@ -8,7 +8,8 @@ public class Canon : MonoBehaviour
     [SerializeField] private GameObject _spawnPoint;
     [SerializeField] private float _timer = 1f;
     [SerializeField] private float _force = 10f;
-    [SerializeField] private float _accelerationTimer = 2f;
+    [SerializeField] private bool _accelerateBullet;
+    [SerializeField] private float _accelerateFor = 2f;
     private float countdown = 0f;
     private Vector3 _direction;
 
@@ -21,7 +22,8 @@ public class Canon : MonoBehaviour
             {
                 countdown = 0f;
                 GameObject bullet = Instantiate(_bullet, _spawnPoint.transform.position, Quaternion.Euler(_spawnPoint.transform.rotation.eulerAngles), _spawnPoint.transform);
-                bullet.GetComponent<Bullet>().Accelerate(_direction, _accelerationTimer);
+                if(_accelerateBullet) bullet.GetComponent<Bullet>().Accelerate(_direction, _accelerateFor);
+                else bullet.GetComponent<Bullet>().AddForce(_direction);
                 bullet.transform.parent = null;
                 Debug.Log(_direction);
             }
