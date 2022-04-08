@@ -20,12 +20,7 @@ public class Canon : MonoBehaviour
             calculateDirection();
             if(countdown > _timer)
             {
-                countdown = 0f;
-                GameObject bullet = Instantiate(_bullet, _spawnPoint.transform.position, Quaternion.Euler(_spawnPoint.transform.rotation.eulerAngles), _spawnPoint.transform);
-                if(_accelerateBullet) bullet.GetComponent<Bullet>().Accelerate(_direction, _accelerateFor);
-                else bullet.GetComponent<Bullet>().AddForce(_direction);
-                bullet.transform.parent = null;
-                Debug.Log(_direction);
+                SpawnBullet();
             }
             
         }
@@ -37,5 +32,14 @@ public class Canon : MonoBehaviour
         _direction = _spawnPoint.transform.position - this.transform.position;
         _direction.Normalize();
         _direction = _direction * _force;
+    }
+
+    private void SpawnBullet()
+    {
+        countdown = 0f;
+        GameObject bullet = Instantiate(_bullet, _spawnPoint.transform.position, Quaternion.Euler(_spawnPoint.transform.rotation.eulerAngles), _spawnPoint.transform);
+        if (_accelerateBullet) bullet.GetComponent<Bullet>().Accelerate(_direction, _accelerateFor);
+        else bullet.GetComponent<Bullet>().AddForce(_direction);
+        bullet.transform.parent = null;
     }
 }
