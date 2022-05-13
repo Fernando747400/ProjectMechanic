@@ -20,6 +20,17 @@ public class GravityZone : MonoBehaviour
         }
     }
 
+    private float radius;
+
+    public float Radius
+    {
+        get
+        {
+            radius = this.transform.parent.GetComponent<SphereCollider>().radius;
+            return radius;
+        }
+    }
+
     [SerializeField] private float gravity; 
     public float Gravity
     {

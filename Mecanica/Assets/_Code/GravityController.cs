@@ -94,6 +94,21 @@ public class GravityController : MonoBehaviour
         return ans;
     }
 
+    public Vector3 calculateFriction(Vector3 directionVector, float mass, Vector3 objectPosition)
+    {
+        Vector3 friction;
+        friction.x = directionVector.x;
+        friction.y = directionVector.y;
+        friction.z = directionVector.z;
+        float weight = calculateGravity(objectPosition).magnitude * mass;
+        friction = Vector3.Normalize(friction);
+        friction = friction * -1;
+        friction = (friction * 0.7f * weight);
+        //friction = friction * 2.0f * mass;
+
+        return friction;
+    }
+
     public Vector3 calculateForces(Vector3 Object)
     {
         Vector3 ans = new Vector3(0, 0, 0);
@@ -118,6 +133,14 @@ public class GravityController : MonoBehaviour
         return false;
     }
 
+    public Vector3 onPlanetSurface(Vector3 gravityObject)
+    {
+        Vector3 ans = Vector3.zero;
+        ans = gravityObject + (-(getClosest(gravityObject)) / -(getClosestDistance(gravityObject))) * getClosestPlanet(gravityObject).Radius;
+        return ans;
+    }
+
+
     public Vector3 getClosest(Vector3 gravityObject)
     {
         Vector3 closest = Vector3.zero;
@@ -137,6 +160,47 @@ public class GravityController : MonoBehaviour
             return temp = gravityObject - closest;
         }
         else return temp;
+    }
+
+    private float getClosestDistance(Vector3 gravityObject)
+    {
+        Vector3 closest = Vector3.zero;
+        Vector3 temp = Vector3.zero;
+        float distance = 0f;
+        if (gravityZones.Count > 0)
+        {
+            distance = Vector3.Distance(gravityObject, gravityZones[0].Position);
+            foreach (var G in gravityZones)
+            {
+                if (Vector3.Distance(gravityObject, G.Position) <= distance)
+                {
+                    closest = G.Position;
+                    distance = Vector3.Distance(gravityObject, G.Position);
+                }
+            }
+            return distance;
+        }
+        else return distance;
+    }
+
+    private GravityZone getClosestPlanet(Vector3 gravityObject)
+    {
+        GravityZone closest = null;
+        float distance = 0f;
+        if (gravityZones.Count > 0)
+        {
+            distance = Vector3.Distance(gravityObject, gravityZones[0].Position);
+            foreach (var G in gravityZones)
+            {
+                if (Vector3.Distance(gravityObject, G.Position) <= distance)
+                {
+                    closest = G;
+                    distance = Vector3.Distance(gravityObject, G.Position);
+                }
+            }
+            return closest;
+        }
+        else return closest;
     }
 
     public void Orient(GameObject gravityObject, Vector3 down)

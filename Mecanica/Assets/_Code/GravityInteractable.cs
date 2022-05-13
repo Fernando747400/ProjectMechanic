@@ -7,6 +7,8 @@ public class GravityInteractable : MonoBehaviour
     [SerializeField] private GravityController gravityController;
     [SerializeField] private bool _canGetGrounded;
     [SerializeField] private bool _orientItself;
+    [SerializeField] private float _mass;
+    [SerializeField] private bool _applyFriction;
     private Vector3 _direction;
     private bool _isGrounded = false;
 
@@ -22,6 +24,7 @@ public class GravityInteractable : MonoBehaviour
         if (gravityController.CollidedWithPlanet(this.transform.position) && _canGetGrounded)
         {
             KillForce();
+            this.transform.position = gravityController.onPlanetSurface(this.transform.position);
             _isGrounded = true;
         } else if (!_isGrounded)
         {
@@ -32,6 +35,10 @@ public class GravityInteractable : MonoBehaviour
                 transform.Translate(_direction * Time.deltaTime, Space.World);
             }
             //if(gravityController != null) AddForce(gravityController.calculateForces(this.transform.position));
+        }
+        if (gravityController.CollidedWithPlanet(this.transform.position) && _applyFriction)
+        {
+            AddForce(gravityController.calculateFriction(_direction,_mass,this.transform.position));
         }
     }
 

@@ -6787,6 +6787,8 @@ MonoBehaviour:
   gravityController: {fileID: 2107329715}
   _canGetGrounded: 0
   _orientItself: 0
+  _mass: 1
+  _applyFriction: 0
 --- !u!114 &2107329715
 MonoBehaviour:
   m_ObjectHideFlags: 0
