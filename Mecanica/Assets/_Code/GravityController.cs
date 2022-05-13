@@ -4,20 +4,30 @@ using UnityEngine;
 
 public class GravityController : MonoBehaviour
 {
-    [Header("Gravity Layer Mask")]
+    [Header("Gravity Tag")]
     public string gravityTag;
+
+    [Header("Fluid Tag")]
+    public string fluidTag;
 
     [Header("Debugging")]
     [SerializeField] Logger logger;
 
     private List<GravityZone> gravityZones = new List<GravityZone>();
+    private List<FluidZone> fluidZones = new List<FluidZone>();
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag(gravityTag))
         {
             gravityZones.Add(other.GetComponent<GravityZone>());
-            Log("Added " +other.gameObject.name +" to the list");
+            Log("Added " +other.gameObject.name +" to the gravity list");
+        }
+
+        if (other.gameObject.CompareTag(fluidTag))
+        {
+            fluidZones.Add(other.GetComponent<FluidZone>());
+            Log("Added " + other.gameObject.name + " to the fluid list");
         }
     }
 
@@ -26,7 +36,13 @@ public class GravityController : MonoBehaviour
         if (other.gameObject.CompareTag(gravityTag))
         {
             gravityZones.Remove(other.GetComponent<GravityZone>());
-            Log("Removed " + other.gameObject.name + " from the list");
+            Log("Removed " + other.gameObject.name + " from the gravity list");
+        }
+
+        if (other.gameObject.CompareTag(fluidTag))
+        {
+            fluidZones.Remove(other.GetComponent<FluidZone>());
+            Log("Removed " + other.gameObject.name + " from the fluid list");
         }
     }
 
@@ -50,6 +66,39 @@ public class GravityController : MonoBehaviour
             ans = Vector3.zero;
         }
         return ans;
+    }
+
+    public Vector3 calculateDrag (Vector3 directionVector)
+    {
+        Vector3 ans = new Vector3(0, 0, 0);
+        float temp;
+        if (fluidZones.Count > 0)
+        {
+            temp = 0;
+            foreach (var G in fluidZones)
+            {
+                temp += G.Density;
+            }
+            temp = temp / fluidZones.Count;         
+            ans = (0.5f * temp * Mathf.Pow((directionVector.magnitude),2) * 0.47f * 1) * Vector3.Normalize(directionVector);
+            if (ans.magnitude > directionVector.magnitude)
+            {
+                return directionVector * -1;
+            }
+            return ans;
+        }
+        else
+        {
+            ans = Vector3.zero;
+        }
+        return ans;
+    }
+
+    public Vector3 calculateForces(Vector3 Object)
+    {
+        Vector3 ans = new Vector3(0, 0, 0);
+        ans = calculateDrag(calculateGravity(Object));
+        return ans; 
     }
 
     public bool CollidedWithPlanet(Vector3 gravityObject)

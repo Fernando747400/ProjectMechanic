@@ -25,8 +25,13 @@ public class GravityInteractable : MonoBehaviour
             _isGrounded = true;
         } else if (!_isGrounded)
         {
-            if(gravityController != null) AddForce(gravityController.calculateGravity(this.transform.position));
-            transform.Translate(_direction * Time.deltaTime, Space.World);
+            if (gravityController != null)
+            {
+                AddForce(gravityController.calculateGravity(this.transform.position));
+                AddForce(gravityController.calculateDrag(_direction));
+                transform.Translate(_direction * Time.deltaTime, Space.World);
+            }
+            //if(gravityController != null) AddForce(gravityController.calculateForces(this.transform.position));
         }
     }
 
@@ -38,5 +43,10 @@ public class GravityInteractable : MonoBehaviour
     public void KillForce()
     {
         _direction = Vector3.zero;
+    }
+
+    public void CalculateForces()
+    {
+
     }
 }

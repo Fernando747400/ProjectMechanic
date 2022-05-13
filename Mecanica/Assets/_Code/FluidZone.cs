@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GravityZone : MonoBehaviour
+public class FluidZone : MonoBehaviour
 {
     private Vector3 position;
     public Vector3 Position
@@ -13,17 +13,17 @@ public class GravityZone : MonoBehaviour
     private float parentScale;
     public float ParentScale
     {
-        get 
-        { 
+        get
+        {
             parentScale = this.transform.parent.GetComponent<SphereCollider>().radius * Mathf.Max(transform.parent.lossyScale.x, transform.parent.lossyScale.y, transform.parent.lossyScale.z);
-            return parentScale; 
+            return parentScale;
         }
     }
 
-    [SerializeField] private float gravity; 
-    public float Gravity
+    [SerializeField] private float density;
+    public float Density
     {
-        get { return gravity; }
-        set { gravity = value; }
+        get { return density; }
+        set { density = value; }
     }
 }
