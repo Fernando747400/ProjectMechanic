@@ -140,6 +140,20 @@ public class GravityController : MonoBehaviour
         return ans;
     }
 
+    public Vector3 CompensateSurface(Vector3 gravityObject, float radius)
+    {
+        Vector3 ans = Vector3.zero;
+        Vector3 normal = Vector3.zero;
+        float depth = 0f;
+        float distance = getClosestDistance(gravityObject);
+        float radiusB = radius + getClosestPlanet(gravityObject).Radius;
+        normal =  getClosestPlanet(gravityObject).Position - gravityObject;
+        normal.Normalize();
+        depth = radiusB - distance;
+        ans = depth * normal;
+        return ans;
+    }
+
 
     public Vector3 getClosest(Vector3 gravityObject)
     {
