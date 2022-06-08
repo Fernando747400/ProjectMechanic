@@ -12,6 +12,7 @@ public class GravityInteractable : MonoBehaviour
     [SerializeField] private bool _orientItself;
     [SerializeField] private float _mass;
     [SerializeField] private bool _applyFriction;
+
     private Vector3 _direction = Vector3.zero;
     private bool _isGrounded = false;
     private float _radius;
