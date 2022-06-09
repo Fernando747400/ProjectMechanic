@@ -25,14 +25,23 @@ public class ShipController : MonoBehaviour
     [SerializeField] private float _bulletSpeed;
 
     private float _timer = 0f;
+    public bool CanPlay = false;
 
     private void FixedUpdate()
     {
-        MovePlayer();
-        _timer += Time.deltaTime;
-        UpdateStatus();
+        if (CanPlay)
+        {
+            MovePlayer();
+            _timer += Time.deltaTime;
+            UpdateStatus();
+        }
+        
     }
 
+    private void Start()
+    {
+        FinishPlaying();
+    }
 
 
     private void MovePlayer()
@@ -105,7 +114,19 @@ public class ShipController : MonoBehaviour
         _player._isGrounded = true;
         _shipModel.SetActive(false);
         Instantiate(_explosion,this.transform.position,Quaternion.Euler(Vector3.zero));
-        _timerBoard.IsPlaying = false;
+        GameManager.current.LostGame();
         Debug.Log("Ship got destroyed");
+    }
+
+    public void StartPlaying()
+    {
+        CanPlay = true;
+        _player._isGrounded = false;
+    }
+
+    public void FinishPlaying()
+    {
+        CanPlay = false;
+        _player._isGrounded = true;
     }
 }

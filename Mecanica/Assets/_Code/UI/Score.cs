@@ -14,12 +14,14 @@ public class Score : MonoBehaviour
     void Update()
     {
         _score.text = _current + "/" + _target;
+        TargetReached();
     }
 
     public void TargetReached()
     {
         if (_current == _target)
         {
+            GameManager.current.WonGame();
             Debug.Log("Won Game");
         }
     }
