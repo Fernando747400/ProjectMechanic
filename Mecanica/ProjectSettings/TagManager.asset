@@ -10,6 +10,7 @@ TagManager:
   - Fluid
   - Border
   - Asteroid
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Fluid
   - Border
   - Asteroid
-  - 
+  - ShipUI
   - 
   - 
   - 
