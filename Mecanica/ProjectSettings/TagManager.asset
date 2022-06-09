@@ -9,6 +9,7 @@ TagManager:
   - Gravity
   - Fluid
   - Border
+  - Asteroid
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Gravity
   - Fluid
   - Border
-  - 
+  - Asteroid
   - 
   - 
   - 
