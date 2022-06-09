@@ -5,6 +5,9 @@ using System.Linq;
 
 public class CollisionManagerGame : MonoBehaviour
 {
+    [Header("Dependencies")]
+    [SerializeField] Score _scoreBoard;
+
     private List<GravityInteractable> Colliders = new List<GravityInteractable>();
     [SerializeField] private float _elasticity = 1.0f;
 
@@ -12,6 +15,7 @@ public class CollisionManagerGame : MonoBehaviour
     {
         Colliders = GameObject.FindObjectsOfType<GravityInteractable>().ToList();
         Colliders.Remove(Colliders.Find(x=> x.gameObject.tag == "Player"));
+        _scoreBoard._target = Colliders.Count;
     }
 
     private void Update()

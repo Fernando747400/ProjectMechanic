@@ -8,7 +8,7 @@ public class Timer : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] private TextMeshProUGUI _timerText;
 
-    private float _timer = 0;
+    private float _timer = 0f;
 
     private void Update()
     {
