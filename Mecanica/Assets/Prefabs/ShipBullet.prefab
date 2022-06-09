@@ -125,7 +125,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityController: {fileID: 4584433214254723714}
+  collisionManager: {fileID: 0}
   _canGetGrounded: 1
   _orientItself: 0
   _mass: 1
   _applyFriction: 0
+  _isAsteroid: 0
+  _isBullet: 1
+  _isGrounded: 0

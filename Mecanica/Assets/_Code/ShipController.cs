@@ -81,6 +81,7 @@ public class ShipController : MonoBehaviour
             GameObject bullet = Instantiate(_bullet,_bulletInstantiator.transform);
             _collisionManager.AddToList(bullet);
             bullet.transform.parent = null;
+            bullet.GetComponent<GravityInteractable>().collisionManager = _collisionManager;
             bullet.GetComponent<GravityInteractable>().AddForce(bullet.transform.up * _bulletSpeed);
         }
     }

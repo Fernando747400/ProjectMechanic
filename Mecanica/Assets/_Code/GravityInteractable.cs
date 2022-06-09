@@ -6,7 +6,7 @@ public class GravityInteractable : MonoBehaviour
 {
     [Header("Dependencies")]
     [SerializeField] private GravityController gravityController;
-    [SerializeField] private CollisionManagerGame collisionManager;
+    [SerializeField] public CollisionManagerGame collisionManager;
 
     [Header("Settings")]
     [SerializeField] private bool _canGetGrounded;
@@ -14,6 +14,7 @@ public class GravityInteractable : MonoBehaviour
     [SerializeField] private float _mass;
     [SerializeField] private bool _applyFriction;
     [SerializeField] private bool _isAsteroid;
+    [SerializeField] private bool _isBullet;
 
     private Vector3 _direction = Vector3.zero;
     public bool _isGrounded = false;
@@ -85,6 +86,16 @@ public class GravityInteractable : MonoBehaviour
                 collisionManager.RemoveFromList(this.gameObject);
                 collisionManager.AddToScore();
                 Debug.Log("Destroyed meteorite " + this.gameObject.name);
+                Destroy(this.gameObject);
+            }
+        }
+
+        if (_isBullet && collisionManager != null)
+        {
+            if (other.CompareTag("Planet") || other.CompareTag("Border"))
+            {
+                collisionManager.RemoveFromList(this.gameObject);
+                Debug.Log("Destroyed bullet " + this.gameObject.name);
                 Destroy(this.gameObject);
             }
         }
