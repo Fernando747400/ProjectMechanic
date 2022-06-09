@@ -43,6 +43,11 @@ public class CollisionManagerGame : MonoBehaviour
         Colliders.Remove(gameObject.GetComponent<GravityInteractable>());
     }
 
+    public void AddToScore()
+    {
+        _scoreBoard._current++;
+    }
+
     void CheckColissions()
     {
         GravityInteractable objectOne;

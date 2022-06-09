@@ -6,15 +6,17 @@ public class GravityInteractable : MonoBehaviour
 {
     [Header("Dependencies")]
     [SerializeField] private GravityController gravityController;
+    [SerializeField] private CollisionManagerGame collisionManager;
 
     [Header("Settings")]
     [SerializeField] private bool _canGetGrounded;
     [SerializeField] private bool _orientItself;
     [SerializeField] private float _mass;
     [SerializeField] private bool _applyFriction;
+    [SerializeField] private bool _isAsteroid;
 
     private Vector3 _direction = Vector3.zero;
-    private bool _isGrounded = false;
+    public bool _isGrounded = false;
     private float _radius;
 
     public float Mass { get => _mass; }
@@ -35,12 +37,15 @@ public class GravityInteractable : MonoBehaviour
     public void Update()
     {
         if(_orientItself)gravityController.Orient(this.gameObject,-gravityController.getClosest(this.transform.position));
-        if (gravityController.CollidedWithPlanet(this.transform.position) && _canGetGrounded)
+        if (gravityController.CollidedWithPlanet(this.transform.position))
         {
-            KillForce();
-            this.transform.position = gravityController.onPlanetSurface(this.transform.position);
-            //this.transform.position = gravityController.CompensateSurface(this.transform.position, _radius);
-            _isGrounded = true;
+            if (_canGetGrounded)
+            {
+                KillForce();
+                this.transform.position = gravityController.onPlanetSurface(this.transform.position);
+                _isGrounded = true;
+            }
+          
         } else if (!_isGrounded)
         {
             if (gravityController != null)
@@ -55,6 +60,10 @@ public class GravityInteractable : MonoBehaviour
         {
             AddForce(gravityController.calculateFriction(_direction,_mass,this.transform.position));
         }
+        if (_isGrounded)
+        {
+            KillForce();
+        }
     }
 
     public void AddForce(Vector3 force)
@@ -67,8 +76,17 @@ public class GravityInteractable : MonoBehaviour
         _direction = Vector3.zero;
     }
 
-    public void CalculateForces()
+    private void OnTriggerEnter(Collider other)
     {
-
+        if (_isAsteroid && collisionManager != null)
+        {
+            if (other.CompareTag("Planet") || other.CompareTag("Border") || other.CompareTag("Asteroid"))
+            {
+                collisionManager.RemoveFromList(this.gameObject);
+                collisionManager.AddToScore();
+                Debug.Log("Destroyed meteorite " + this.gameObject.name);
+                Destroy(this.gameObject);
+            }
+        }
     }
 }
